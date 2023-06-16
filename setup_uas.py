@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsRegressor
+from sklearn.ensemble import RandomForestRegressor
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.metrics import mean_absolute_percentage_error
 from numpy import array
@@ -31,12 +32,14 @@ with tab1:
     st.write(data)
     st.subheader("Penjelasan :")
     st.write("""
-            Jelaskan datanya dari mana
+            data didapat dari website finance.yahoo.com
     """)
     st.write("""
-            Type datanya dari mana
+        Data tentang finance dari perusahaan PT. Bank Rakyat Indonesia (Persero) Tbk
     """)
-
+    st.write("""
+            Type datanya adalah time series
+    """)
 with tab2:
     st.header("Preprocessing Data")
     st.write("""
@@ -56,7 +59,7 @@ with tab2:
     st.write(features_scaled)
 
     st.write("Reduksi Dimensi PCA")
-    pca = PCA(n_components=4)
+    pca = PCA(n_components=6)
     features_pca = pca.fit_transform(features_scaled)
     st.write(features_pca)
 
@@ -69,6 +72,7 @@ with tab3:
     st.header("Modelling")
     
     knn_cekbox = st.checkbox("KNN")
+    rf_cekbox = st.checkbox("Random Forest")
     decission3_cekbox = st.checkbox("Decission Tree")
 
     #=========================== Spliting data ======================================
@@ -122,12 +126,18 @@ with tab3:
         # st.warning(knn_accuracy)
         st.warning(f"MAPE  =  {mape_knn}")
         st.markdown("---")
-
+        
+    if rf_cekbox:
+        st.write("##### Random Forest")
+        st.warning("Prediksi menggunakan Random Forest:")
+        # st.warning(knn_accuracy)
+        st.warning(f"MAPE  =  {mape_rf}")
+        st.markdown("---")
 
     if decission3_cekbox:
         st.write("##### Decission Tree")
-        st.success("Dengan menggunakan metode Decission tree didapatkan hasil akurasi sebesar:")
-        st.success(f"Akurasi = {mape_decision}")
+        st.success("{rediksi menggunakan Decission tree:")
+        st.success(f"MAPE = {mape_decision}")
 
 with tab4:
     st.header("Implementasi")
@@ -149,14 +159,20 @@ with tab4:
     date_features_pca = pca.transform(date_features)
 
     # Melakukan prediksi menggunakan model KNN
-    knn_prediction = knn_model.predict(date_features_pca)[0]
+    knn_prediction = knn_model.predict(date_features_pca)
+        
+    # Melakukan prediksi menggunakan model Random Forest
+    rf_prediction = rf_model.predict(date_features_pca)
 
     # Melakukan prediksi menggunakan model Decision Tree
-    dt_prediction = dt_model.predict(date_features_pca)[0]
+    dt_prediction = dt_model.predict(date_features_pca)
 
     st.subheader("Hasil Prediksi Saham")
     st.write("Prediksi menggunakan model KNN:")
     st.write(f"Harga saham: {knn_prediction}")
+
+    st.write("Prediksi menggunakan model Random Forest:")
+    st.write(f"Harga saham: {rf_prediction}")
 
     st.write("Prediksi menggunakan model Decision Tree:")
     st.write(f"Harga saham: {dt_prediction}")
