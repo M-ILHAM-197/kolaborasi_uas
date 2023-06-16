@@ -75,8 +75,6 @@ with tab3:
     rf_cekbox = st.checkbox("Random Forest")
     decission3_cekbox = st.checkbox("Decission Tree")
 
-    #=========================== Spliting data ======================================
-
 
     #============================ Model =================================
 
