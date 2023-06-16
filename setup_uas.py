@@ -95,7 +95,29 @@ with tab3:
     # Menghitung MAPE
     mape_knn = mean_absolute_percentage_error(y_test, y_pred)
 
-    #===================== Bayes Gaussian =============
+    #===================== Random Forest =============
+
+    
+
+    # Membagi data menjadi data latih dan data uji
+
+    X_train, X_test, y_train, y_test = train_test_split(features_scaled, target, test_size=0.2, random_state=42)
+
+    # Membuat model Random Forest Regression
+
+    rf_model = RandomForestRegressor(n_estimators=100, random_state=42)
+
+    # Melatih model Random Forest Regression
+
+    rf_model.fit(X_train, y_train)
+
+    # Melakukan prediksi pada data uji
+
+    y_pred = rf_model.predict(X_test)
+
+    # Menghitung MAPE
+
+    mape_rf = mean_absolute_percentage_error(y_test, y_pred)
 
 
     #===================== Decission tree =============
